@@ -892,11 +892,21 @@
         let currentToken = null;
         let allPairs = [];
 
-        // Get token from URL path
+        // Get token from URL (supports both path and query parameter)
         function getTokenFromURL() {
-            const path = window.location.pathname;
-            const parts = path.split('/').filter(p => p);
-            return parts[0] || null;
+            // First check query parameter: ?token=Trojan
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryToken = urlParams.get('token') || urlParams.get('q');
+            if (queryToken) return queryToken;
+
+            // Then check hash: #Trojan
+            if (window.location.hash && window.location.hash.length > 1) {
+                return decodeURIComponent(window.location.hash.slice(1));
+            }
+
+            // For GitHub Pages or similar, don't try to parse path
+            // Only use query params or hash
+            return null;
         }
 
         // Format numbers
@@ -1153,7 +1163,8 @@
         function searchToken() {
             const query = document.getElementById('searchInput').value.trim();
             if (query) {
-                window.location.href = '/' + encodeURIComponent(query);
+                // Use query parameter for better compatibility
+                window.location.href = '?token=' + encodeURIComponent(query);
             }
         }
 
@@ -1169,12 +1180,15 @@
             const token = getTokenFromURL();
             
             if (!token) {
-                // Show search prompt on homepage
+                // Show search prompt on homepage - hide loading, show welcome
                 document.getElementById('loading').innerHTML = `
                     <div style="text-align: center;">
                         <div style="font-size: 4rem; margin-bottom: 1rem;">🔍</div>
                         <h2 style="margin-bottom: 0.5rem;">Search for a Token</h2>
-                        <p style="color: var(--text-secondary);">Enter a token name, symbol, or contract address above</p>
+                        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Enter a token name, symbol, or contract address above</p>
+                        <div style="color: var(--text-muted); font-size: 0.9rem;">
+                            <p>Try searching: <strong>Pepe</strong>, <strong>BONK</strong>, <strong>Shiba</strong></p>
+                        </div>
                     </div>
                 `;
                 return;
