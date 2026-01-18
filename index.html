@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Info | DEX Scanner</title>
+    <title>DEX Voting | Vote to Earn</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,19 +15,23 @@
         }
 
         :root {
-            --bg-primary: #0d0e12;
-            --bg-secondary: #13141a;
-            --bg-card: #1a1b23;
-            --bg-hover: #22232d;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --bg-input: #0d0d14;
             --text-primary: #ffffff;
-            --text-secondary: #8b8d97;
-            --text-muted: #5c5e69;
-            --accent-green: #00d26a;
-            --accent-red: #ff4757;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent-green: #22c55e;
+            --accent-green-glow: rgba(34, 197, 94, 0.3);
+            --accent-red: #ef4444;
+            --accent-red-glow: rgba(239, 68, 68, 0.3);
+            --accent-purple: #a855f7;
             --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --border-color: #2a2b35;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-yellow: #eab308;
+            --border-color: #2a2a3a;
+            --border-light: #3a3a4a;
         }
 
         body {
@@ -42,14 +46,14 @@
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
+            padding: 0.875rem 1.5rem;
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .header-content {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -59,146 +63,94 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
+            gap: 0.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--text-primary);
             text-decoration: none;
         }
 
         .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--gradient-1);
-            border-radius: 8px;
+            font-size: 1.5rem;
+        }
+
+        .header-right {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 0.5rem 1rem;
-            width: 400px;
-            transition: all 0.2s;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .search-box input {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            width: 100%;
-            outline: none;
-        }
-
-        .search-box input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .search-icon {
-            color: var(--text-muted);
-            margin-right: 0.75rem;
-        }
-
-        .search-btn {
-            background: var(--accent-blue);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            padding: 0.5rem 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            margin-left: 0.5rem;
-            transition: all 0.2s;
-        }
-
-        .search-btn:hover {
-            background: #2563eb;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Loading State */
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 60vh;
             gap: 1rem;
         }
 
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid var(--border-color);
-            border-top-color: var(--accent-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Error State */
-        .error {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .error-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .error h2 {
+        .sign-in-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .error p {
-            color: var(--text-secondary);
+        .sign-in-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-light);
         }
 
-        /* Token Header */
-        .token-header {
+        /* Main Layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left Column - Token Info */
+        .token-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Token Header Card */
+        .token-header-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .token-top-row {
             display: flex;
             align-items: flex-start;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .token-logo {
-            width: 72px;
-            height: 72px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--accent-blue);
             overflow: hidden;
-            border: 3px solid var(--border-color);
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .token-logo img {
@@ -207,59 +159,65 @@
             object-fit: cover;
         }
 
-        .token-info {
+        .token-main-info {
             flex: 1;
+            min-width: 0;
         }
 
         .token-name-row {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
+            gap: 0.5rem;
             flex-wrap: wrap;
+            margin-bottom: 0.375rem;
         }
 
         .token-name {
-            font-size: 1.75rem;
+            font-size: 1.375rem;
             font-weight: 700;
         }
 
         .token-symbol {
-            font-size: 1.25rem;
+            font-size: 1rem;
             color: var(--text-secondary);
             font-weight: 500;
         }
 
         .token-badges {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.375rem;
+            margin-left: auto;
         }
 
         .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            padding: 0.25rem 0.625rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .badge-chain {
-            background: rgba(139, 92, 246, 0.2);
+            background: rgba(168, 85, 247, 0.15);
             color: var(--accent-purple);
         }
 
         .badge-dex {
-            background: rgba(59, 130, 246, 0.2);
+            background: rgba(59, 130, 246, 0.15);
             color: var(--accent-blue);
         }
 
-        .token-address {
+        .token-address-row {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+
+        .token-address {
+            font-size: 0.8rem;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            font-family: monospace;
+            font-family: 'SF Mono', Monaco, monospace;
         }
 
         .copy-btn {
@@ -268,320 +226,88 @@
             color: var(--text-muted);
             cursor: pointer;
             padding: 0.25rem;
-            border-radius: 4px;
-            transition: all 0.2s;
+            font-size: 0.875rem;
+            transition: color 0.2s;
         }
 
         .copy-btn:hover {
             color: var(--text-primary);
-            background: var(--bg-hover);
         }
 
-        /* Price Section */
-        .price-section {
+        /* Price Row */
+        .price-row {
             display: flex;
             align-items: baseline;
             gap: 1rem;
-            margin-top: 1rem;
             flex-wrap: wrap;
         }
 
         .price-main {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .price-change {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 0.25rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            padding: 0.35rem 0.75rem;
+            padding: 0.375rem 0.75rem;
             border-radius: 8px;
         }
 
         .price-change.positive {
             color: var(--accent-green);
-            background: rgba(0, 210, 106, 0.1);
+            background: rgba(34, 197, 94, 0.1);
         }
 
         .price-change.negative {
             color: var(--accent-red);
-            background: rgba(255, 71, 87, 0.1);
+            background: rgba(239, 68, 68, 0.1);
         }
 
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
-            margin-bottom: 2rem;
         }
 
-        .stat-card {
-            background: var(--bg-card);
+        @media (max-width: 700px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-item {
+            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.25rem;
-            transition: all 0.2s;
-        }
-
-        .stat-card:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-2px);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
         }
 
         .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .stat-value {
-            font-size: 1.35rem;
+            font-size: 1.125rem;
             font-weight: 700;
         }
 
-        .stat-sub {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            margin-top: 0.25rem;
-        }
-
-        /* Transactions Section */
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .txn-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .txn-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.25rem;
-        }
-
-        .txn-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .txn-period {
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .txn-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-        }
-
-        .txn-label {
-            color: var(--text-secondary);
-        }
-
-        .txn-buys {
-            color: var(--accent-green);
-            font-weight: 600;
-        }
-
-        .txn-sells {
-            color: var(--accent-red);
-            font-weight: 600;
-        }
-
-        /* Social Links */
-        .social-section {
-            margin-bottom: 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .social-link:hover {
-            border-color: var(--accent-blue);
-            background: var(--bg-hover);
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-
-        .action-btn-primary {
-            background: var(--accent-green);
-            color: white;
-            border: none;
-        }
-
-        .action-btn-primary:hover {
-            background: #00b85d;
-            transform: translateY(-2px);
-        }
-
-        .action-btn-secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        .action-btn-secondary:hover {
-            border-color: var(--accent-blue);
-            background: var(--bg-hover);
-        }
-
-        /* Pairs Table */
-        .pairs-section {
-            margin-top: 2rem;
-        }
-
-        .pairs-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-card);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .pairs-table th,
-        .pairs-table td {
-            padding: 1rem;
-            text-align: left;
-        }
-
-        .pairs-table th {
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .pairs-table tr {
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.2s;
-        }
-
-        .pairs-table tbody tr:hover {
-            background: var(--bg-hover);
-        }
-
-        .pairs-table tbody tr:last-child {
-            border-bottom: none;
-        }
-
-        .pair-name {
-            font-weight: 600;
-        }
-
-        .pair-chain {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 3rem;
-        }
-
-        .footer a {
-            color: var(--accent-blue);
-            text-decoration: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .search-box {
-                width: 100%;
-            }
-
-            .token-header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .price-main {
-                font-size: 2rem;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-        }
-
-        /* Vote Section Styles */
-        .vote-section {
+        /* Vote Card */
+        .vote-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 1.5rem;
-            margin-bottom: 2rem;
         }
 
         .vote-header {
@@ -592,36 +318,53 @@
         }
 
         .vote-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .vote-count {
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            font-size: 0.9rem;
         }
 
         .vote-bar-container {
-            height: 12px;
-            background: var(--bg-secondary);
-            border-radius: 6px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 4px;
             overflow: hidden;
             margin-bottom: 1rem;
         }
 
         .vote-bar {
             height: 100%;
-            border-radius: 6px;
+            background: var(--accent-green);
+            border-radius: 4px;
             transition: width 0.5s ease;
         }
 
-        .vote-bar-positive {
-            background: linear-gradient(90deg, var(--accent-green), #00f583);
+        .vote-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .vote-stat-good {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .vote-stat-bad {
+            color: var(--accent-red);
+            font-weight: 600;
         }
 
         .vote-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .vote-btn {
@@ -630,7 +373,7 @@
             border: none;
             border-radius: 10px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -639,31 +382,324 @@
             transition: all 0.2s;
         }
 
-        .vote-btn-up {
-            background: rgba(0, 210, 106, 0.15);
+        .vote-btn-good {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .vote-btn-good:hover {
+            background: rgba(34, 197, 94, 0.25);
+            box-shadow: 0 0 20px var(--accent-green-glow);
+        }
+
+        .vote-btn-bad {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .vote-btn-bad:hover {
+            background: rgba(239, 68, 68, 0.25);
+            box-shadow: 0 0 20px var(--accent-red-glow);
+        }
+
+        /* Right Column - Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Vote to Earn Card */
+        .earn-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .earn-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .earn-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #22c55e, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .earn-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .earn-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .earn-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Vote Feed Card */
+        .feed-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .feed-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .feed-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feed-live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .feed-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .feed-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.2s;
+        }
+
+        .feed-item:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .feed-item:last-child {
+            border-bottom: none;
+        }
+
+        .feed-token-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .feed-token-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .feed-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .feed-token-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .feed-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .feed-vote-type {
+            padding: 0.25rem 0.625rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feed-vote-good {
+            background: rgba(34, 197, 94, 0.15);
             color: var(--accent-green);
         }
 
-        .vote-btn-up:hover {
-            background: rgba(0, 210, 106, 0.25);
-        }
-
-        .vote-btn-down {
-            background: rgba(255, 71, 87, 0.15);
+        .feed-vote-bad {
+            background: rgba(239, 68, 68, 0.15);
             color: var(--accent-red);
         }
 
-        .vote-btn-down:hover {
-            background: rgba(255, 71, 87, 0.25);
+        /* Links Card */
+        .links-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.25rem;
         }
 
-        /* Hidden initially */
-        .content {
-            display: none;
+        .links-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.875rem;
+            color: var(--text-secondary);
         }
 
-        .content.visible {
-            display: block;
+        .links-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 0.875rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .link-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-light);
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+            gap: 1rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Search Box */
+        .search-container {
+            max-width: 500px;
+            margin: 2rem auto 0;
+        }
+
+        .search-box {
+            display: flex;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-box button {
+            padding: 1rem 1.5rem;
+            background: var(--accent-green);
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-box button:hover {
+            background: #16a34a;
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Scrollbar */
+        .feed-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .feed-list::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .feed-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
         }
     </style>
 </head>
@@ -671,252 +707,182 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <a href="/" class="logo">
-                <div class="logo-icon">📊</div>
-                <span>DEX Scanner</span>
+            <a href="?" class="logo">
+                <span class="logo-icon">📊</span>
+                <span>DEX Voting</span>
             </a>
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search token name, symbol or address...">
-                <button class="search-btn" onclick="searchToken()">Search</button>
+            <div class="header-right">
+                <button class="sign-in-btn" onclick="showSignIn()">
+                    <span>👤</span>
+                    <span>Sign In</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="container">
-        <!-- Loading State -->
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            <p>Fetching token data...</p>
-        </div>
+    <!-- Loading State -->
+    <div id="loadingState" class="loading">
+        <div class="spinner"></div>
+        <p style="color: var(--text-secondary);">Loading token data...</p>
+    </div>
 
-        <!-- Error State -->
-        <div id="error" class="error" style="display: none;">
-            <div class="error-icon">😕</div>
-            <h2>Token Not Found</h2>
-            <p>We couldn't find any token matching your search. Try a different name or address.</p>
-        </div>
-
-        <!-- Main Content -->
-        <div id="content" class="content">
-            <!-- Token Header -->
-            <div class="token-header">
-                <div class="token-logo" id="tokenLogo">
-                    <span id="tokenInitial">?</span>
+    <!-- Home State -->
+    <div id="homeState" class="loading hidden">
+        <div style="text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🔍</div>
+            <h2 style="margin-bottom: 0.5rem;">Search for a Token</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Enter a token name, symbol, or contract address</p>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="homeSearchInput" placeholder="Search token...">
+                    <button onclick="searchFromHome()">Search</button>
                 </div>
-                <div class="token-info">
-                    <div class="token-name-row">
-                        <span class="token-name" id="tokenName">Loading...</span>
-                        <span class="token-symbol" id="tokenSymbol"></span>
-                        <div class="token-badges">
-                            <span class="badge badge-chain" id="chainBadge">--</span>
-                            <span class="badge badge-dex" id="dexBadge">--</span>
+            </div>
+            <p style="color: var(--text-muted); margin-top: 1.5rem; font-size: 0.875rem;">
+                Try: <strong>Pepe</strong>, <strong>BONK</strong>, <strong>Shiba</strong>, <strong>Doge</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="loading hidden">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">😕</div>
+        <h2>Token Not Found</h2>
+        <p style="color: var(--text-secondary);">We couldn't find any token matching your search.</p>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="errorSearchInput" placeholder="Try another token...">
+                <button onclick="searchFromError()">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="main-container hidden">
+        <!-- Left Column -->
+        <div class="token-section">
+            <!-- Token Header -->
+            <div class="token-header-card">
+                <div class="token-top-row">
+                    <div class="token-logo" id="tokenLogo">?</div>
+                    <div class="token-main-info">
+                        <div class="token-name-row">
+                            <span class="token-name" id="tokenName">--</span>
+                            <span class="token-symbol" id="tokenSymbol">--</span>
+                            <div class="token-badges">
+                                <span class="badge badge-chain" id="chainBadge">--</span>
+                                <span class="badge badge-dex" id="dexBadge">--</span>
+                            </div>
+                        </div>
+                        <div class="token-address-row">
+                            <span class="token-address" id="tokenAddress">--</span>
+                            <button class="copy-btn" onclick="copyAddress()">📋</button>
                         </div>
                     </div>
-                    <div class="token-address">
-                        <span id="tokenAddress">--</span>
-                        <button class="copy-btn" onclick="copyAddress()" title="Copy address">📋</button>
-                    </div>
-                    <div class="price-section">
-                        <span class="price-main" id="tokenPrice">$0.00</span>
-                        <span class="price-change positive" id="priceChange">
-                            <span>▲</span>
-                            <span id="priceChangeValue">0%</span>
-                        </span>
-                    </div>
+                </div>
+                <div class="price-row">
+                    <span class="price-main" id="tokenPrice">$0.00</span>
+                    <span class="price-change positive" id="priceChange">+0%</span>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Market Cap</div>
+                    <div class="stat-value" id="marketCap">--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Liquidity</div>
+                    <div class="stat-value" id="liquidity">--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">24h Volume</div>
+                    <div class="stat-value" id="volume">--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">24h Change</div>
+                    <div class="stat-value" id="change24h">--</div>
                 </div>
             </div>
 
             <!-- Vote Section -->
-            <div class="vote-section">
+            <div class="vote-card">
                 <div class="vote-header">
-                    <span class="vote-title">🗳️ Community Trust Score</span>
+                    <span class="vote-title">🗳️ Community Vote</span>
                     <span class="vote-count" id="voteCount">0 votes</span>
                 </div>
                 <div class="vote-bar-container">
-                    <div class="vote-bar vote-bar-positive" id="voteBar" style="width: 50%;"></div>
+                    <div class="vote-bar" id="voteBar" style="width: 50%;"></div>
+                </div>
+                <div class="vote-stats">
+                    <span class="vote-stat-good">👍 <span id="goodPercent">50%</span> Good</span>
+                    <span class="vote-stat-bad">👎 <span id="badPercent">50%</span> Bad</span>
                 </div>
                 <div class="vote-buttons">
-                    <button class="vote-btn vote-btn-up" onclick="vote('up')">
+                    <button class="vote-btn vote-btn-good" onclick="vote('good')">
                         👍 Good
                     </button>
-                    <button class="vote-btn vote-btn-down" onclick="vote('down')">
+                    <button class="vote-btn vote-btn-bad" onclick="vote('bad')">
                         👎 Bad
                     </button>
                 </div>
             </div>
 
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">💰 Market Cap</div>
-                    <div class="stat-value" id="marketCap">--</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">💧 Liquidity</div>
-                    <div class="stat-value" id="liquidity">--</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">📊 24h Volume</div>
-                    <div class="stat-value" id="volume24h">--</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">💎 FDV</div>
-                    <div class="stat-value" id="fdv">--</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">📈 5m Change</div>
-                    <div class="stat-value" id="change5m">--</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">📈 1h Change</div>
-                    <div class="stat-value" id="change1h">--</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">📈 6h Change</div>
-                    <div class="stat-value" id="change6h">--</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">📈 24h Change</div>
-                    <div class="stat-value" id="change24h">--</div>
-                </div>
+            <!-- Links -->
+            <div class="links-card">
+                <div class="links-title">🔗 Links</div>
+                <div class="links-grid" id="linksGrid"></div>
             </div>
+        </div>
 
-            <!-- Transactions -->
-            <h3 class="section-title">📊 Transactions</h3>
-            <div class="txn-grid">
-                <div class="txn-card">
-                    <div class="txn-header">
-                        <span class="txn-period">5 Minutes</span>
-                    </div>
-                    <div class="txn-row">
-                        <span class="txn-label">Buys</span>
-                        <span class="txn-buys" id="buys5m">0</span>
-                    </div>
-                    <div class="txn-row">
-                        <span class="txn-label">Sells</span>
-                        <span class="txn-sells" id="sells5m">0</span>
-                    </div>
-                </div>
-                <div class="txn-card">
-                    <div class="txn-header">
-                        <span class="txn-period">1 Hour</span>
-                    </div>
-                    <div class="txn-row">
-                        <span class="txn-label">Buys</span>
-                        <span class="txn-buys" id="buys1h">0</span>
-                    </div>
-                    <div class="txn-row">
-                        <span class="txn-label">Sells</span>
-                        <span class="txn-sells" id="sells1h">0</span>
-                    </div>
-                </div>
-                <div class="txn-card">
-                    <div class="txn-header">
-                        <span class="txn-period">6 Hours</span>
-                    </div>
-                    <div class="txn-row">
-                        <span class="txn-label">Buys</span>
-                        <span class="txn-buys" id="buys6h">0</span>
-                    </div>
-                    <div class="txn-row">
-                        <span class="txn-label">Sells</span>
-                        <span class="txn-sells" id="sells6h">0</span>
-                    </div>
-                </div>
-                <div class="txn-card">
-                    <div class="txn-header">
-                        <span class="txn-period">24 Hours</span>
-                    </div>
-                    <div class="txn-row">
-                        <span class="txn-label">Buys</span>
-                        <span class="txn-buys" id="buys24h">0</span>
-                    </div>
-                    <div class="txn-row">
-                        <span class="txn-label">Sells</span>
-                        <span class="txn-sells" id="sells24h">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Social Links -->
-            <div class="social-section">
-                <h3 class="section-title">🔗 Links</h3>
-                <div class="social-links" id="socialLinks">
-                    <!-- Dynamically populated -->
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <a href="#" id="dexscreenerLink" class="action-btn action-btn-primary" target="_blank">
-                    📈 View on DexScreener
-                </a>
-                <a href="#" id="tradeLink" class="action-btn action-btn-secondary" target="_blank">
-                    💱 Trade
-                </a>
-                <button class="action-btn action-btn-secondary" onclick="shareToken()">
-                    📤 Share
+        <!-- Right Column - Sidebar -->
+        <div class="sidebar">
+            <!-- Vote to Earn -->
+            <div class="earn-card">
+                <div class="earn-icon">💰</div>
+                <div class="earn-title">Vote to Earn SOL</div>
+                <div class="earn-subtitle">Earn rewards by voting on tokens</div>
+                <button class="earn-btn" onclick="showSignIn()">
+                    <span>🚀</span>
+                    Start Earning
                 </button>
             </div>
 
-            <!-- All Pairs Table -->
-            <div class="pairs-section">
-                <h3 class="section-title">📋 All Trading Pairs</h3>
-                <table class="pairs-table">
-                    <thead>
-                        <tr>
-                            <th>Pair</th>
-                            <th>Price</th>
-                            <th>24h Change</th>
-                            <th>Volume</th>
-                            <th>Liquidity</th>
-                            <th>DEX</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pairsTableBody">
-                        <!-- Dynamically populated -->
-                    </tbody>
-                </table>
+            <!-- Vote Feed -->
+            <div class="feed-card">
+                <div class="feed-header">
+                    <span class="feed-title">
+                        <span class="feed-live-dot"></span>
+                        Live Vote Feed
+                    </span>
+                </div>
+                <div class="feed-list" id="feedList"></div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>Powered by <a href="https://dexscreener.com" target="_blank">DexScreener API</a> | Built with ❤️</p>
-    </footer>
-
     <script>
-        // Global state
         let currentToken = null;
-        let allPairs = [];
+        let voteData = { good: 50, bad: 50, total: 0 };
 
-        // Get token from URL (supports both path and query parameter)
         function getTokenFromURL() {
-            // First check query parameter: ?token=Trojan
             const urlParams = new URLSearchParams(window.location.search);
             const queryToken = urlParams.get('token') || urlParams.get('q');
             if (queryToken) return queryToken;
-
-            // Then check hash: #Trojan
             if (window.location.hash && window.location.hash.length > 1) {
                 return decodeURIComponent(window.location.hash.slice(1));
             }
-
-            // For GitHub Pages or similar, don't try to parse path
-            // Only use query params or hash
             return null;
         }
 
-        // Format numbers
-        function formatNumber(num, decimals = 2) {
+        function formatNumber(num) {
             if (num === null || num === undefined) return '--';
-            if (num >= 1e12) return `$${(num / 1e12).toFixed(decimals)}T`;
-            if (num >= 1e9) return `$${(num / 1e9).toFixed(decimals)}B`;
-            if (num >= 1e6) return `$${(num / 1e6).toFixed(decimals)}M`;
-            if (num >= 1e3) return `$${(num / 1e3).toFixed(decimals)}K`;
-            return `$${num.toFixed(decimals)}`;
+            if (num >= 1e12) return `$${(num / 1e12).toFixed(2)}T`;
+            if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
+            if (num >= 1e6) return `$${(num / 1e6).toFixed(2)}M`;
+            if (num >= 1e3) return `$${(num / 1e3).toFixed(2)}K`;
+            return `$${num.toFixed(2)}`;
         }
 
         function formatPrice(price) {
@@ -924,8 +890,7 @@
             const num = parseFloat(price);
             if (num < 0.00001) return `$${num.toExponential(4)}`;
             if (num < 1) return `$${num.toFixed(8)}`;
-            if (num < 1000) return `$${num.toFixed(4)}`;
-            return `$${num.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+            return `$${num.toLocaleString(undefined, { maximumFractionDigits: 4 })}`;
         }
 
         function formatPercent(value) {
@@ -935,198 +900,225 @@
             return `${sign}${num.toFixed(2)}%`;
         }
 
-        // Fetch token data from DexScreener
         async function fetchTokenData(query) {
             try {
                 const response = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(query)}`);
-                const data = await response.json();
-                return data;
+                return await response.json();
             } catch (error) {
-                console.error('Error fetching token data:', error);
+                console.error('Error:', error);
                 return null;
             }
         }
 
-        // Update UI with token data
+        function showLoading() {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('homeState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+        }
+
+        function showHome() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('homeState').classList.remove('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+        }
+
+        function showError() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('homeState').classList.add('hidden');
+            document.getElementById('errorState').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+        }
+
+        function showContent() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('homeState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+        }
+
         function updateUI(data) {
             if (!data || !data.pairs || data.pairs.length === 0) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('content').classList.remove('visible');
+                showError();
                 return;
             }
 
-            allPairs = data.pairs;
-            const pair = data.pairs[0]; // Primary pair
+            const pair = data.pairs[0];
             currentToken = pair;
 
-            // Update page title
-            document.title = `${pair.baseToken.symbol} - ${formatPrice(pair.priceUsd)} | DEX Scanner`;
+            document.title = `${pair.baseToken.symbol} | DEX Voting`;
 
-            // Token logo
-            const logoContainer = document.getElementById('tokenLogo');
+            const logoEl = document.getElementById('tokenLogo');
             if (pair.info?.imageUrl) {
-                logoContainer.innerHTML = `<img src="${pair.info.imageUrl}" alt="${pair.baseToken.symbol}" onerror="this.parentElement.innerHTML='<span>${pair.baseToken.symbol[0]}</span>'">`;
+                logoEl.innerHTML = `<img src="${pair.info.imageUrl}" alt="${pair.baseToken.symbol}" onerror="this.parentElement.textContent='${pair.baseToken.symbol[0]}'">`;
             } else {
-                logoContainer.innerHTML = `<span>${pair.baseToken.symbol[0]}</span>`;
+                logoEl.textContent = pair.baseToken.symbol[0];
             }
 
-            // Basic info
             document.getElementById('tokenName').textContent = pair.baseToken.name;
-            document.getElementById('tokenSymbol').textContent = pair.baseToken.symbol;
-            document.getElementById('tokenAddress').textContent = pair.baseToken.address.slice(0, 8) + '...' + pair.baseToken.address.slice(-6);
+            document.getElementById('tokenSymbol').textContent = `$${pair.baseToken.symbol}`;
+            document.getElementById('tokenAddress').textContent = pair.baseToken.address.slice(0, 6) + '...' + pair.baseToken.address.slice(-4);
             document.getElementById('chainBadge').textContent = pair.chainId.toUpperCase();
             document.getElementById('dexBadge').textContent = pair.dexId.toUpperCase();
 
-            // Price
             document.getElementById('tokenPrice').textContent = formatPrice(pair.priceUsd);
 
-            // Price change
-            const priceChangeEl = document.getElementById('priceChange');
-            const change24h = pair.priceChange?.h24 || 0;
-            priceChangeEl.className = `price-change ${change24h >= 0 ? 'positive' : 'negative'}`;
-            priceChangeEl.innerHTML = `
-                <span>${change24h >= 0 ? '▲' : '▼'}</span>
-                <span>${formatPercent(change24h)}</span>
-            `;
+            const change = pair.priceChange?.h24 || 0;
+            const changeEl = document.getElementById('priceChange');
+            changeEl.className = `price-change ${change >= 0 ? 'positive' : 'negative'}`;
+            changeEl.textContent = formatPercent(change);
 
-            // Stats
             document.getElementById('marketCap').textContent = formatNumber(pair.marketCap);
             document.getElementById('liquidity').textContent = formatNumber(pair.liquidity?.usd);
-            document.getElementById('volume24h').textContent = formatNumber(pair.volume?.h24);
-            document.getElementById('fdv').textContent = formatNumber(pair.fdv);
-
-            // Price changes
-            updatePriceChange('change5m', pair.priceChange?.m5);
-            updatePriceChange('change1h', pair.priceChange?.h1);
-            updatePriceChange('change6h', pair.priceChange?.h6);
-            updatePriceChange('change24h', pair.priceChange?.h24);
-
-            // Transactions
-            document.getElementById('buys5m').textContent = pair.txns?.m5?.buys || 0;
-            document.getElementById('sells5m').textContent = pair.txns?.m5?.sells || 0;
-            document.getElementById('buys1h').textContent = pair.txns?.h1?.buys || 0;
-            document.getElementById('sells1h').textContent = pair.txns?.h1?.sells || 0;
-            document.getElementById('buys6h').textContent = pair.txns?.h6?.buys || 0;
-            document.getElementById('sells6h').textContent = pair.txns?.h6?.sells || 0;
-            document.getElementById('buys24h').textContent = pair.txns?.h24?.buys || 0;
-            document.getElementById('sells24h').textContent = pair.txns?.h24?.sells || 0;
-
-            // Social links
-            const socialContainer = document.getElementById('socialLinks');
-            socialContainer.innerHTML = '';
+            document.getElementById('volume').textContent = formatNumber(pair.volume?.h24);
             
+            const change24hEl = document.getElementById('change24h');
+            change24hEl.textContent = formatPercent(change);
+            change24hEl.style.color = change >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+
+            updateLinks(pair);
+
+            voteData.good = Math.floor(Math.random() * 30) + 60;
+            voteData.bad = 100 - voteData.good;
+            voteData.total = Math.floor(Math.random() * 500) + 50;
+            updateVoteUI();
+
+            generateFeed(pair);
+            showContent();
+        }
+
+        function updateLinks(pair) {
+            const grid = document.getElementById('linksGrid');
+            grid.innerHTML = '';
+
+            grid.innerHTML += `<a href="${pair.url || '#'}" target="_blank" class="link-btn">📈 DexScreener</a>`;
+
+            const explorerUrl = getExplorerUrl(pair.chainId, pair.baseToken.address);
+            grid.innerHTML += `<a href="${explorerUrl}" target="_blank" class="link-btn">🔍 Explorer</a>`;
+
             if (pair.info?.websites) {
                 pair.info.websites.forEach(site => {
-                    socialContainer.innerHTML += `
-                        <a href="${site.url}" class="social-link" target="_blank">
-                            🌐 Website
-                        </a>
-                    `;
+                    grid.innerHTML += `<a href="${site.url}" target="_blank" class="link-btn">🌐 Website</a>`;
                 });
             }
-            
+
             if (pair.info?.socials) {
                 pair.info.socials.forEach(social => {
-                    const icons = {
-                        twitter: '🐦',
-                        telegram: '📱',
-                        discord: '💬',
-                        medium: '📝'
-                    };
+                    const icons = { twitter: '🐦', telegram: '📱', discord: '💬' };
                     const icon = icons[social.platform?.toLowerCase()] || '🔗';
-                    socialContainer.innerHTML += `
-                        <a href="https://${social.platform}.com/${social.handle}" class="social-link" target="_blank">
-                            ${icon} ${social.platform}
-                        </a>
-                    `;
+                    let url = social.url || `https://${social.platform}.com/${social.handle}`;
+                    grid.innerHTML += `<a href="${url}" target="_blank" class="link-btn">${icon} ${social.platform}</a>`;
                 });
             }
-
-            // Add explorer link
-            socialContainer.innerHTML += `
-                <a href="${getExplorerUrl(pair.chainId, pair.baseToken.address)}" class="social-link" target="_blank">
-                    🔍 Explorer
-                </a>
-            `;
-
-            // Action links
-            document.getElementById('dexscreenerLink').href = pair.url || `https://dexscreener.com/${pair.chainId}/${pair.pairAddress}`;
-            document.getElementById('tradeLink').href = getTradeUrl(pair);
-
-            // Update pairs table
-            updatePairsTable();
-
-            // Initialize vote bar (random for demo)
-            const votePercent = Math.floor(Math.random() * 40) + 50; // 50-90%
-            document.getElementById('voteBar').style.width = `${votePercent}%`;
-            document.getElementById('voteCount').textContent = `${Math.floor(Math.random() * 500) + 100} votes`;
-
-            // Show content
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('content').classList.add('visible');
-        }
-
-        function updatePriceChange(elementId, value) {
-            const el = document.getElementById(elementId);
-            if (value === null || value === undefined) {
-                el.textContent = '--';
-                el.style.color = 'var(--text-secondary)';
-                return;
-            }
-            const num = parseFloat(value);
-            el.textContent = formatPercent(num);
-            el.style.color = num >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
-        }
-
-        function updatePairsTable() {
-            const tbody = document.getElementById('pairsTableBody');
-            tbody.innerHTML = '';
-
-            allPairs.slice(0, 10).forEach(pair => {
-                const change = pair.priceChange?.h24 || 0;
-                const changeColor = change >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
-                
-                tbody.innerHTML += `
-                    <tr onclick="window.open('${pair.url}', '_blank')" style="cursor: pointer;">
-                        <td>
-                            <div class="pair-name">${pair.baseToken.symbol}/${pair.quoteToken.symbol}</div>
-                            <div class="pair-chain">${pair.chainId}</div>
-                        </td>
-                        <td>${formatPrice(pair.priceUsd)}</td>
-                        <td style="color: ${changeColor}">${formatPercent(change)}</td>
-                        <td>${formatNumber(pair.volume?.h24)}</td>
-                        <td>${formatNumber(pair.liquidity?.usd)}</td>
-                        <td>${pair.dexId}</td>
-                    </tr>
-                `;
-            });
         }
 
         function getExplorerUrl(chainId, address) {
             const explorers = {
                 'ethereum': `https://etherscan.io/token/${address}`,
                 'bsc': `https://bscscan.com/token/${address}`,
-                'polygon': `https://polygonscan.com/token/${address}`,
-                'arbitrum': `https://arbiscan.io/token/${address}`,
                 'solana': `https://solscan.io/token/${address}`,
                 'base': `https://basescan.org/token/${address}`,
-                'avalanche': `https://snowtrace.io/token/${address}`,
+                'arbitrum': `https://arbiscan.io/token/${address}`,
             };
             return explorers[chainId?.toLowerCase()] || `https://etherscan.io/token/${address}`;
         }
 
-        function getTradeUrl(pair) {
-            const dexUrls = {
-                'uniswap': `https://app.uniswap.org/#/swap?outputCurrency=${pair.baseToken.address}`,
-                'pancakeswap': `https://pancakeswap.finance/swap?outputCurrency=${pair.baseToken.address}`,
-                'raydium': `https://raydium.io/swap/?outputCurrency=${pair.baseToken.address}`,
-            };
-            return dexUrls[pair.dexId?.toLowerCase()] || pair.url || '#';
+        function updateVoteUI() {
+            document.getElementById('voteBar').style.width = `${voteData.good}%`;
+            document.getElementById('goodPercent').textContent = `${voteData.good}%`;
+            document.getElementById('badPercent').textContent = `${voteData.bad}%`;
+            document.getElementById('voteCount').textContent = `${voteData.total} votes`;
         }
 
-        // Actions
+        function vote(type) {
+            if (type === 'good') {
+                voteData.good = Math.min(voteData.good + 1, 99);
+                voteData.bad = 100 - voteData.good;
+            } else {
+                voteData.bad = Math.min(voteData.bad + 1, 99);
+                voteData.good = 100 - voteData.bad;
+            }
+            voteData.total++;
+            updateVoteUI();
+            addFeedItem(currentToken, type);
+            alert('Thanks for voting! 🗳️');
+        }
+
+        function generateFeed(currentPair) {
+            const feedList = document.getElementById('feedList');
+            feedList.innerHTML = '';
+
+            const sampleTokens = [
+                { name: 'Pepe', symbol: 'PEPE', logo: '🐸' },
+                { name: 'Dogecoin', symbol: 'DOGE', logo: '🐕' },
+                { name: 'Shiba Inu', symbol: 'SHIB', logo: '🐕' },
+                { name: 'Bonk', symbol: 'BONK', logo: '🦴' },
+                { name: 'Floki', symbol: 'FLOKI', logo: '⚡' },
+                { name: currentPair.baseToken.name, symbol: currentPair.baseToken.symbol, logo: '🪙', image: currentPair.info?.imageUrl },
+            ];
+
+            for (let i = 0; i < 10; i++) {
+                const token = sampleTokens[Math.floor(Math.random() * sampleTokens.length)];
+                const isGood = Math.random() > 0.3;
+                const minutesAgo = Math.floor(Math.random() * 60);
+
+                feedList.innerHTML += `
+                    <div class="feed-item">
+                        <div class="feed-token-logo">
+                            ${token.image ? `<img src="${token.image}" onerror="this.parentElement.textContent='${token.logo}'">` : token.logo}
+                        </div>
+                        <div class="feed-info">
+                            <div class="feed-token-name">${token.symbol}</div>
+                            <div class="feed-time">${minutesAgo === 0 ? 'Just now' : `${minutesAgo}m ago`}</div>
+                        </div>
+                        <span class="feed-vote-type ${isGood ? 'feed-vote-good' : 'feed-vote-bad'}">
+                            ${isGood ? '👍 Good' : '👎 Bad'}
+                        </span>
+                    </div>
+                `;
+            }
+        }
+
+        function addFeedItem(pair, type) {
+            const feedList = document.getElementById('feedList');
+            const isGood = type === 'good';
+
+            const newItem = document.createElement('div');
+            newItem.className = 'feed-item';
+            newItem.innerHTML = `
+                <div class="feed-token-logo">
+                    ${pair.info?.imageUrl ? `<img src="${pair.info.imageUrl}">` : pair.baseToken.symbol[0]}
+                </div>
+                <div class="feed-info">
+                    <div class="feed-token-name">${pair.baseToken.symbol}</div>
+                    <div class="feed-time">Just now</div>
+                </div>
+                <span class="feed-vote-type ${isGood ? 'feed-vote-good' : 'feed-vote-bad'}">
+                    ${isGood ? '👍 Good' : '👎 Bad'}
+                </span>
+            `;
+
+            feedList.insertBefore(newItem, feedList.firstChild);
+        }
+
+        function searchFromHome() {
+            const query = document.getElementById('homeSearchInput').value.trim();
+            if (query) window.location.href = '?token=' + encodeURIComponent(query);
+        }
+
+        function searchFromError() {
+            const query = document.getElementById('errorSearchInput').value.trim();
+            if (query) window.location.href = '?token=' + encodeURIComponent(query);
+        }
+
+        document.getElementById('homeSearchInput')?.addEventListener('keypress', e => {
+            if (e.key === 'Enter') searchFromHome();
+        });
+        document.getElementById('errorSearchInput')?.addEventListener('keypress', e => {
+            if (e.key === 'Enter') searchFromError();
+        });
+
         function copyAddress() {
             if (currentToken) {
                 navigator.clipboard.writeText(currentToken.baseToken.address);
@@ -1134,83 +1126,30 @@
             }
         }
 
-        function shareToken() {
-            if (currentToken) {
-                const url = window.location.href;
-                if (navigator.share) {
-                    navigator.share({
-                        title: `${currentToken.baseToken.name} (${currentToken.baseToken.symbol})`,
-                        text: `Check out ${currentToken.baseToken.symbol} - ${formatPrice(currentToken.priceUsd)}`,
-                        url: url
-                    });
-                } else {
-                    navigator.clipboard.writeText(url);
-                    alert('Link copied!');
-                }
-            }
+        function showSignIn() {
+            alert('🔐 Sign In feature coming soon!\n\nConnect your wallet to:\n• Vote on tokens\n• Earn SOL rewards\n• Track your voting history');
         }
 
-        function vote(type) {
-            const bar = document.getElementById('voteBar');
-            const currentWidth = parseFloat(bar.style.width);
-            const newWidth = type === 'up' 
-                ? Math.min(currentWidth + 2, 100) 
-                : Math.max(currentWidth - 2, 0);
-            bar.style.width = `${newWidth}%`;
-            alert(`Thanks for voting! 🗳️`);
-        }
-
-        function searchToken() {
-            const query = document.getElementById('searchInput').value.trim();
-            if (query) {
-                // Use query parameter for better compatibility
-                window.location.href = '?token=' + encodeURIComponent(query);
-            }
-        }
-
-        // Handle Enter key in search
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchToken();
-            }
-        });
-
-        // Initialize
         async function init() {
             const token = getTokenFromURL();
-            
+
             if (!token) {
-                // Show search prompt on homepage - hide loading, show welcome
-                document.getElementById('loading').innerHTML = `
-                    <div style="text-align: center;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;">🔍</div>
-                        <h2 style="margin-bottom: 0.5rem;">Search for a Token</h2>
-                        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Enter a token name, symbol, or contract address above</p>
-                        <div style="color: var(--text-muted); font-size: 0.9rem;">
-                            <p>Try searching: <strong>Pepe</strong>, <strong>BONK</strong>, <strong>Shiba</strong></p>
-                        </div>
-                    </div>
-                `;
+                showHome();
                 return;
             }
 
-            // Set search input value
-            document.getElementById('searchInput').value = decodeURIComponent(token);
-
-            // Fetch and display data
+            showLoading();
             const data = await fetchTokenData(token);
             updateUI(data);
         }
 
-        // Run on load
         init();
 
-        // Auto-refresh every 30 seconds
         setInterval(async () => {
             const token = getTokenFromURL();
-            if (token && document.getElementById('content').classList.contains('visible')) {
+            if (token && currentToken) {
                 const data = await fetchTokenData(token);
-                if (data && data.pairs && data.pairs.length > 0) {
+                if (data?.pairs?.length > 0) {
                     updateUI(data);
                 }
             }
